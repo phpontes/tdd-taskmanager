@@ -15,4 +15,22 @@ public class CalculatorTest {
         //assert
         assertEquals(3.0, result);
     }
+
+    @Test
+    void testDivideByZero() {
+        //arrange
+        Calculator calculator = new Calculator();
+        //act & assert
+        assertThrows(ArithmeticException.class, () -> calculator.divide(5, 0));
+    }
+
+    @Test
+    void testDivideNegativeNumbers() {
+        //arrange
+        Calculator calculator = new Calculator();
+        //act
+        double result = calculator.divide(-6, -2);
+        //assert
+        assertEquals(3.0, result);
+    }
 }
