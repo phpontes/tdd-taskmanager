@@ -1,9 +1,8 @@
 package com.paulopontes.taskmanager.repository;
 
 import com.paulopontes.taskmanager.model.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class TaskRepository {
-    public Task save(Task task) {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    }
 }
