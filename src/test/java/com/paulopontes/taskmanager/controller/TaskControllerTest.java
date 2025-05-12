@@ -49,7 +49,7 @@ public class TaskControllerTest {
         //act & assert
         mockMvc.perform(post("/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .contentType(objectMapper.writeValueAsString(task)))
+                .content(objectMapper.writeValueAsString(task)))
                 .andExpect(status().isBadRequest());
     }
 
