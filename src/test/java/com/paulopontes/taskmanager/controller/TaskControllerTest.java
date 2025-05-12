@@ -43,6 +43,17 @@ public class TaskControllerTest {
     }
 
     @Test
+    void testCreateTask_InvalidInput() throws Exception {
+        //arrange
+        Task task = new Task("", "To do");
+        //act & assert
+        mockMvc.perform(post("/tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(objectMapper.writeValueAsString(task)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void testGetAllTasks() throws Exception {
         //arrange
         List<Task> tasks = Arrays.asList(
