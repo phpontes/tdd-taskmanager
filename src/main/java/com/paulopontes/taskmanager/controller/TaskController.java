@@ -4,6 +4,7 @@ import com.paulopontes.taskmanager.model.Task;
 import com.paulopontes.taskmanager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,11 @@ public class TaskController {
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @PostMapping
+    public Task createTask(Task task) {
+        return taskService.createTask(task);
     }
 
     @GetMapping

@@ -30,6 +30,19 @@ public class TaskControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    void testCreateTask() throws Exception {
+        //arrange
+        Task task = new Task("Controller test task", "To do");
+        when(taskService.createTask(any(Task.class))).thenReturn(task);
+        //act & assert
+        mockMvc.perform(post("/tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(task)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Controller test task"));
+    }
+
+    @Test
     void testGetAllTasks() throws Exception {
         //arrange
         List<Task> tasks = Arrays.asList(
