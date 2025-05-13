@@ -81,4 +81,20 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$[0].title").value("Task 1"))
                 .andExpect(jsonPath("$[1].title").value("Task 2"));
     }
+
+    @Test
+    void testUpdateTask() throws Exception {
+        //arrange
+        Task updatedTask = new Task(1L, "Updated task", "In progress");
+        when(taskService.updateTask(eq(1L), any(Task.class))).thenReturn(updatedTask);
+
+        String taskJson = objectMapper.writeValueAsString(updatedTask);
+        //act & assert
+        mockMvc.perform(put("/tasks/1").contentType(MediaType.APPLICATION_JSON)
+                .content(taskJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.title").value("Updated task"));
+        verify(taskService).updateTask(eq(1L), any(Task.class));
+    }
 }
