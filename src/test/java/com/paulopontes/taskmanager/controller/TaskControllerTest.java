@@ -97,4 +97,14 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$.title").value("Updated task"));
         verify(taskService).updateTask(eq(1L), any(Task.class));
     }
+
+    @Test
+    void testDeleteTask() throws Exception {
+        //arrange
+        doNothing().when(taskService).deleteTask(1L);
+        //act & assert
+        mockMvc.perform(delete("/tasks/1"))
+                .andExpect(status().isNoContent());
+        verify(taskService).deleteTask(1L);
+    }
 }
