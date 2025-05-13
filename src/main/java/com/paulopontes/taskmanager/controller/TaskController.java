@@ -1,8 +1,10 @@
 package com.paulopontes.taskmanager.controller;
 
+import com.paulopontes.taskmanager.exception.TaskNotFoundException;
 import com.paulopontes.taskmanager.model.Task;
 import com.paulopontes.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +47,10 @@ public class TaskController {
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler({TaskNotFoundException.class})
+    public ResponseEntity<String> handleTaskNotFoundException(TaskNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }

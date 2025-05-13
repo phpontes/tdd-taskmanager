@@ -1,6 +1,7 @@
 package com.paulopontes.taskmanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.paulopontes.taskmanager.exception.TaskNotFoundException;
 import com.paulopontes.taskmanager.model.Task;
 import com.paulopontes.taskmanager.service.TaskService;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,16 @@ public class TaskControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.title").value("Task 1"));
+    }
+
+    @Test
+    void testGetTaskById_TaskNotFound() throws Exception {
+        //arrange
+        when(taskService.getTaskById(1L)).thenThrow(new TaskNotFoundException("Task not found"));
+        //act & assert
+        mockMvc.perform(get("/tasks/1"))
+                .andExpect(status().isNotFound());
+        verify(taskService).getTaskById(1L);
     }
 
     @Test
